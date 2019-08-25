@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FireflySNS</string>
+    <string name="login_introduction_msg1">Firefly\'s SNS</string>
+    <string name="login_introduction_msg2">Welcome :-)</string>
 </resources>
