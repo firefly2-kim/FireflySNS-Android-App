@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.firefly.fireflysns.R;
 import com.firefly.fireflysns.component.base.BaseActivity;
+import com.firefly.fireflysns.injection.ModelInjection;
 import com.firefly.fireflysns.injection.ViewInjection;
 import com.firefly.fireflysns.injection.ViewModelInjection;
 import com.firefly.fireflysns.view.LoginView;
@@ -25,8 +26,13 @@ public class LoginActivity extends BaseActivity {
         mScreenViewModel = ViewModelProviders.of(this).get(LoginScreenViewModelImpl.class);
         mScreenViewModel.setParentContext(this);
 
+        injectModel(mScreenViewModel);
         injectViewModel(mScreenViewModel);
         injectView(mScreenViewModel);
+    }
+
+    private void injectModel(LoginScreenViewModel viewModel) {
+        viewModel.setFirestoreRepository(ModelInjection.provideFirestoreRepository());
     }
 
     private void injectViewModel(LoginScreenViewModel viewModel) {

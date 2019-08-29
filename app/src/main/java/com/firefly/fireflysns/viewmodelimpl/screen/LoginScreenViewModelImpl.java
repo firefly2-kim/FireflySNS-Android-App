@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.lifecycle.ViewModel;
 
 import com.firefly.fireflysns.component.MainActivity;
+import com.firefly.fireflysns.model.FirestoreRepository;
 import com.firefly.fireflysns.view.LoginView;
 import com.firefly.fireflysns.view.ToastView;
 import com.firefly.fireflysns.viewmodel.screen.LoginScreenViewModel;
@@ -25,6 +26,9 @@ public class LoginScreenViewModelImpl extends ViewModel implements LoginScreenVi
     // View
     private ToastView mToastView;
 
+    // Model
+    private FirestoreRepository mFirestoreRepository;
+
     // LiveData
     private LoginUsecaseExecutor mLoginUsecaseExecutor;
 
@@ -37,7 +41,13 @@ public class LoginScreenViewModelImpl extends ViewModel implements LoginScreenVi
     }
 
     @Override
+    public void setFirestoreRepository(FirestoreRepository repository) {
+        mFirestoreRepository = repository;
+    }
+
+    @Override
     public void setLoginUsecaseExecutor(LoginUsecaseExecutor executor) {
+        executor.setFirestoreRepository(mFirestoreRepository);
         mLoginUsecaseExecutor = executor;
     }
 

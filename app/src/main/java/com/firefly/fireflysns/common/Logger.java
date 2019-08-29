@@ -17,4 +17,8 @@ public class Logger {
     public static void e(String tag, String msg) {
         Log.e(APP_TAG, "[" + tag + "]" + msg);
     }
+
+    public static void w(String tag, String msg) {
+        Log.w(APP_TAG, "[" + tag + "]" + msg);
+    }
 }

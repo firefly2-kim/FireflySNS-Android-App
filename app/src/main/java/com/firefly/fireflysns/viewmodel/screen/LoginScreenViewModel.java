@@ -3,6 +3,7 @@ package com.firefly.fireflysns.viewmodel.screen;
 import android.app.Activity;
 import android.content.Intent;
 
+import com.firefly.fireflysns.model.FirestoreRepository;
 import com.firefly.fireflysns.view.LoginView;
 import com.firefly.fireflysns.view.ToastView;
 import com.firefly.fireflysns.viewmodel.usecase.LoginUsecaseExecutor;
@@ -14,6 +15,8 @@ import com.firefly.fireflysns.viewmodel.usecase.LoginUsecaseExecutor;
 public interface LoginScreenViewModel extends LoginView.ActionListener {
 
     void setParentContext(Activity parentContext);
+
+    void setFirestoreRepository(FirestoreRepository repository);
 
     void setLoginUsecaseExecutor(LoginUsecaseExecutor executor);
 

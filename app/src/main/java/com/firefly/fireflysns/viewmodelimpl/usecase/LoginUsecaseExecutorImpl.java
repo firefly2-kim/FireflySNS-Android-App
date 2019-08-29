@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.firefly.fireflysns.R;
+import com.firefly.fireflysns.model.FirestoreRepository;
 import com.firefly.fireflysns.viewmodel.usecase.LoginUsecaseExecutor;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -19,6 +20,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * @author firefly2.kim
  * @since 19. 8. 23
@@ -27,6 +32,7 @@ public class LoginUsecaseExecutorImpl implements LoginUsecaseExecutor {
 
     private MutableLiveData<FirebaseUser> mFirebaseUserLiveData = new MutableLiveData<>();
     private MutableLiveData<Throwable> mThrowableLiveData = new MutableLiveData<>();
+    private FirestoreRepository mFirestoreRepository;
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
@@ -39,6 +45,11 @@ public class LoginUsecaseExecutorImpl implements LoginUsecaseExecutor {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(activity, gso);
+    }
+
+    @Override
+    public void setFirestoreRepository(FirestoreRepository repository) {
+        mFirestoreRepository = repository;
     }
 
     @Override
@@ -75,8 +86,7 @@ public class LoginUsecaseExecutorImpl implements LoginUsecaseExecutor {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mAuth.signInWithCredential(credential).addOnCompleteListener(activity, paramTask -> {
             if (paramTask.isSuccessful()) {
-                FirebaseUser user = mAuth.getCurrentUser();
-                mFirebaseUserLiveData.setValue(user);
+                uploadUserInfoToRemoteDb();
                 return;
             }
             mThrowableLiveData.setValue(task.getException());
@@ -86,5 +96,12 @@ public class LoginUsecaseExecutorImpl implements LoginUsecaseExecutor {
     @Override
     public Intent getSignInIntent() {
         return mGoogleSignInClient.getSignInIntent();
+    }
+
+    private void uploadUserInfoToRemoteDb() {
+        mFirestoreRepository.addUserIfNotExists(mAuth.getCurrentUser())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(unused -> loadUserData(), thr -> mThrowableLiveData.setValue(thr));
     }
 }
