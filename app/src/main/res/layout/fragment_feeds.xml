@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/create_post_container"
+        layout="@layout/layout_feed_create_post"/>
+
+    <include
+        android:id="@+id/feed_listview"
+        layout="@layout/layout_feed_listview"/>
+
+</LinearLayout>

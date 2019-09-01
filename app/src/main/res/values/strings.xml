@@ -2,4 +2,10 @@
     <string name="app_name">FireflySNS</string>
     <string name="login_introduction_msg1">Firefly\'s SNS</string>
     <string name="login_introduction_msg2">Welcome :-)</string>
+
+    <string name="feeds">피드</string>
+    <string name="friends">친구</string>
+    <string name="profile">프로필</string>
+    <string name="picture">사진</string>
+    <string name="what_do_you_think_about">무슨 생각을 하고 계신가요?</string>
 </resources>

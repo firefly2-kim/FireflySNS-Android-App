@@ -4,8 +4,10 @@ import android.view.View;
 
 import androidx.lifecycle.LifecycleOwner;
 
+import com.firefly.fireflysns.view.FeedCreationLauncherView;
 import com.firefly.fireflysns.view.LoginView;
 import com.firefly.fireflysns.view.ToastView;
+import com.firefly.fireflysns.viewimpl.FeedCreationLauncherViewImpl;
 import com.firefly.fireflysns.viewimpl.LoginViewImpl;
 import com.firefly.fireflysns.viewimpl.ToastViewImpl;
 
@@ -25,5 +27,9 @@ public class ViewInjection {
 
     public static ToastView provideToastView() {
         return new ToastViewImpl();
+    }
+
+    public static FeedCreationLauncherView provideFeedCreationLauncherView(View view, LifecycleOwner lifecycleOwner) {
+        return new FeedCreationLauncherViewImpl(view, lifecycleOwner);
     }
 }

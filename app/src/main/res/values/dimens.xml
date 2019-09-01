@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_listview_horizontal_padding">10dp</dimen>
+
+    <dimen name="common_profile_img_border">1dp</dimen>
+</resources>

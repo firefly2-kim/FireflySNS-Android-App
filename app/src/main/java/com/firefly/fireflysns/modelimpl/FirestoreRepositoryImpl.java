@@ -2,6 +2,8 @@ package com.firefly.fireflysns.modelimpl;
 
 import com.firefly.fireflysns.common.Logger;
 import com.firefly.fireflysns.model.FirestoreRepository;
+import com.firefly.fireflysns.model.entity.UserInfoModel;
+import com.firefly.fireflysns.modelimpl.entity.UserInfoModelImpl;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,5 +55,19 @@ public class FirestoreRepositoryImpl implements FirestoreRepository {
                 .set(obj)
                 .addOnSuccessListener(unused -> emitter.onSuccess(true))
                 .addOnFailureListener(thr -> emitter.onError(thr));
+    }
+
+    @Override
+    public Single<UserInfoModel> fetchUserInfo(FirebaseUser firebaseUser) {
+        return Single.create(emitter -> {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection(COLLECTION_NAME_USERS).document(firebaseUser.getUid()).get()
+                    .addOnSuccessListener(dataSnap -> {
+                        String photoUrl = dataSnap.getString("photo_url");
+                        UserInfoModel model = new UserInfoModelImpl();
+                        model.setPhotoUrl(photoUrl);
+                        emitter.onSuccess(model);
+                    }).addOnFailureListener(thr -> emitter.onError(thr));
+        });
     }
 }

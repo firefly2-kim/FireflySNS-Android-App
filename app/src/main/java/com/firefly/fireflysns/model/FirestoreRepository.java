@@ -1,5 +1,6 @@
 package com.firefly.fireflysns.model;
 
+import com.firefly.fireflysns.model.entity.UserInfoModel;
 import com.google.firebase.auth.FirebaseUser;
 
 import io.reactivex.Single;
@@ -11,4 +12,6 @@ import io.reactivex.Single;
 public interface FirestoreRepository {
 
     Single<Boolean> addUserIfNotExists(FirebaseUser firebaseUser);
+
+    Single<UserInfoModel> fetchUserInfo(FirebaseUser firebaseUser);
 }
